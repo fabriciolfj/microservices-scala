@@ -7,8 +7,7 @@ import slick.jdbc.PostgresProfile.api._
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.Await
-import scala.concurrent.duration.{Duration, DurationInt}
-import scala.util.{Failure, Success}
+import scala.concurrent.duration.{Duration}
 
 @Singleton
 class FindLastCashbackGateway @Inject()(repository: CashbackRepository) extends GetLastRegistryCashbackProvider {

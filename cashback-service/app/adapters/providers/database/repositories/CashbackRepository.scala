@@ -4,7 +4,6 @@ import adapters.providers.database.data.{CashbackData, CashbackTable}
 import slick.dbio.{Effect, NoStream}
 import slick.jdbc.JdbcBackend.Database
 import slick.jdbc.SQLActionBuilder
-import slick.lifted.{Query, TableQuery}
 import slick.sql.FixedSqlAction
 
 import scala.concurrent.ExecutionContext.Implicits.global
