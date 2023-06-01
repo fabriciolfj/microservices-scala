@@ -11,7 +11,7 @@ import javax.inject.{Inject, Singleton}
 class SaveCashbackGateway @Inject()(private val repository: CashbackRepository) extends SaveCashbackProvider {
 
   override def process(code: String, cashback: Cashback): Unit = {
-    val data = CashbackTable.apply(code, cashback)
+    val data = CashbackTable.create(code, cashback)
     repository.save(data)
   }
 }

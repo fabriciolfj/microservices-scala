@@ -15,8 +15,8 @@ class CashbackController @Inject()( val controllerComponents: ControllerComponen
     val json = request.body.asJson
     val result = json match {
       case Some(value) =>
-        val request = CreateCashbackRequestConverter.converter(value)
-        cashbackCreate.execute(request)
+        val customer = CreateCashbackRequestConverter.converter(value)
+        cashbackCreate.execute(customer)
         Created
       case None => BadRequest
     }

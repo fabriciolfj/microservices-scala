@@ -4,5 +4,5 @@ import entities.{Cashback, Customer}
 
 trait GetLastRegistryCashbackProvider {
 
-  def process(customer: Customer) : Option[Cashback]
+  def process(customer: String) : Option[Cashback]
 }
