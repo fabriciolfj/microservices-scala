@@ -5,3 +5,5 @@ cashback-service/.g8/
 transactions-service/.g8/
 
 transactions-service/app/.DS_Store
+
+.idea/
