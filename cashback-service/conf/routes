@@ -1,1 +1,3 @@
++ nocsrf
 POST /api/v1/cashback               entrypoint.controllers.CashbackController.create()
+GET  /api/v1/cashback/:code           entrypoint.controllers.CashbackController.find(code: String)

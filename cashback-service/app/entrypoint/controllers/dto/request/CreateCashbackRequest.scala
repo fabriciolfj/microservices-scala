@@ -2,7 +2,7 @@ package entrypoint.controllers.dto.request
 
 import play.api.libs.functional.syntax.toFunctionalBuilderOps
 import play.api.libs.json.Reads.minLength
-import play.api.libs.json.{JsNumber, JsPath, Reads}
+import play.api.libs.json.{JsPath, Reads}
 import utils.ReadsGenerics
 
 case class CreateCashbackRequest(customer: String, value: BigDecimal)

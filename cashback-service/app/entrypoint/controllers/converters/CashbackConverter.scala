@@ -6,7 +6,7 @@ import play.api.libs.json.{JsError, JsSuccess, JsValue}
 
 import java.time.LocalDateTime
 
-object CreateCashbackRequestConverter {
+object CashbackConverter {
 
   def converter(json: JsValue) = {
     val result = json.validate[CreateCashbackRequest]

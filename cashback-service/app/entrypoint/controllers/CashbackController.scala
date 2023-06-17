@@ -1,26 +1,37 @@
 package entrypoint.controllers
 
 
-import entrypoint.controllers.converters.CreateCashbackRequestConverter
+import entrypoint.controllers.converters.CashbackConverter
+import play.api.libs.json.Json
 import play.api.mvc._
-import usecase.createcashback.CreateCashbackUsecase
+import usecase.createcashback.{CreateCashbackUsecase, FindLastCashbackUsecase}
 
 import javax.inject.{Inject, Singleton}
 
 @Singleton
 class CashbackController @Inject()( val controllerComponents: ControllerComponents,
-                                    val cashbackCreate: CreateCashbackUsecase) extends BaseController {
+                                    val cashbackCreate: CreateCashbackUsecase,
+                                    val findLastCashbackUsecase: FindLastCashbackUsecase) extends BaseController {
 
   def create = Action { request: Request[AnyContent] =>
     val json = request.body.asJson
     val result = json match {
       case Some(value) =>
-        val customer = CreateCashbackRequestConverter.converter(value)
+        val customer = CashbackConverter.converter(value)
         cashbackCreate.execute(customer)
         Created
       case None => BadRequest
     }
 
     result
+  }
+
+  def find(code: String) = Action {
+    import entrypoint.controllers.dto.response.CashbackWriteJson.cashbackWrite
+
+    val result = findLastCashbackUsecase.execute(code)
+    val json = Json.toJson(result)
+
+    Ok(json)
   }
 }
