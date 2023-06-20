@@ -5,4 +5,8 @@ object TypeOperation extends Enumeration {
 
   val DEBIT, CREDIT = Value
 
+  def fromString(value: String): Option[TypeOperation] = {
+    values.find(_.toString.equalsIgnoreCase(value))
+  }
+
 }
