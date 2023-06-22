@@ -10,7 +10,7 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.ExecutionContext
 
 @Singleton
-class TransactionRespository @Inject() (mongoClient: MongoClient, config: Configuration) {
+class TransactionRepository @Inject()(mongoClient: MongoClient, config: Configuration) {
 
   val logger = LoggerFactory.getLogger(getClass)
 
@@ -26,5 +26,4 @@ class TransactionRespository @Inject() (mongoClient: MongoClient, config: Config
         logger.info("transaction save sucess " + transaction.code)
       }
   }
-
 }

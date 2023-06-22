@@ -2,22 +2,22 @@ package configuration
 
 import com.google.inject.{AbstractModule, Provides}
 import org.mongodb.scala.{MongoClient, MongoDatabase}
-import play.api.Configuration
+import play.api.{Configuration, Environment}
 
-import javax.inject.Singleton
+import javax.inject.Inject
 
-class MongoConfiguration(config: Configuration) extends AbstractModule {
+
+class MongoConfiguration extends AbstractModule {
 
   @Provides
-  def mongoClient: MongoClient = {
+  def mongoClient(config: Configuration): MongoClient = {
     val mongoUri = config.get[String]("mongo.uri")
     MongoClient(mongoUri)
   }
 
   @Provides
-  def mongoDatabase(mongoClient: MongoClient) : MongoDatabase = {
+  def mongoDatabase(mongoClient: MongoClient, config: Configuration): MongoDatabase = {
     val databaseName = config.get[String]("mongo.database")
     mongoClient.getDatabase(databaseName)
   }
-
 }
