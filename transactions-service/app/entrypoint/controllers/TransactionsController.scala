@@ -1,6 +1,7 @@
 package entrypoint.controllers
 
-import entrypoint.dto.TransactionRequest
+import entrypoint.dto.{TransactionRequest, TransactionResponse}
+import play.api.libs.json.Json
 import play.api.mvc._
 import usecase.CreateTransactionUsecase
 
@@ -11,14 +12,15 @@ class TransactionsController @Inject()(val controllerComponents: ControllerCompo
                                        val createTransaction: CreateTransactionUsecase) extends BaseController {
 
   def create : Action[AnyContent] = Action { request : Request[AnyContent] =>
+    import entrypoint.dto.TransactionResponse.transactionResponseWrite
+
     val json = request.body.asJson
-    val result = json match {
+     json match {
       case Some(value) =>
-        val transaction = TransactionRequest.toEntity(value)
-        createTransaction.execute(transaction)
+        val result = createTransaction.execute(TransactionRequest.toEntity(value))
+        val dto = TransactionResponse.toResponse(result)
+        Ok(Json.toJson(dto))
       case None => BadRequest
     }
-
-    Ok
   }
 }

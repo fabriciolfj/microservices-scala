@@ -4,8 +4,6 @@ import com.google.inject.{AbstractModule, Provides}
 import org.mongodb.scala.{MongoClient, MongoDatabase}
 import play.api.{Configuration, Environment}
 
-import javax.inject.Inject
-
 
 class MongoConfiguration extends AbstractModule {
 
