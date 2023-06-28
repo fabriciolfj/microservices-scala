@@ -1,6 +1,5 @@
 package providers.cashback.http
 
-import org.slf4j.LoggerFactory
 import play.api.libs.json.Json
 import providers.cashback.dto.CaschbackRequest
 import sttp.client3._
@@ -10,7 +9,6 @@ object CashbackClient {
 
 
   def send(dto: CaschbackRequest, url: String): Unit = {
-    val logger = LoggerFactory.getLogger(getClass)
     import CaschbackRequest.caschbackRequestWrite
 
     val requestBody = Json.toJson(dto).toString()
@@ -25,10 +23,11 @@ object CashbackClient {
 
     response.body.fold(
       error => {
-        logger.info(s"fail request cashback: $error")
+         println(s"fail request cashback: $error")
+         throw new RuntimeException(error)
       },
       success => {
-        logger.info(s"receive success cashback: $success")
+        println(s"receive success cashback: $success")
       }
     )
   }
