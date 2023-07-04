@@ -23,7 +23,7 @@ class TransactionRepository @Inject()(mongoClient: MongoClient, config: Configur
     collection.insertOne(doc)
       .toFuture()
       .map{_ =>
-        logger.info("transaction save sucess " + transaction.code)
+        logger.info("transaction save success " + transaction.code)
       }
   }
 }

@@ -3,22 +3,23 @@ package adapters.gateways
 import adapters.providers.database.repositories.CashbackRepository
 import entities.Cashback
 import usecase.findcashback.GetLastRegistryCashbackProvider
-import slick.jdbc.PostgresProfile.api._
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.Await
 import scala.concurrent.duration.{Duration}
+import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
 class FindLastCashbackGateway @Inject()(repository: CashbackRepository) extends GetLastRegistryCashbackProvider {
 
   override def process(customer: String): Option[Cashback] = {
-    val sql = sql"SELECT * FROM cashback ORDER BY date_time DESC LIMIT 1"
-    val query = repository.query(sql)
+    val query = repository.query(customer)
 
     val result = try {
       Await.result(query, Duration.Inf) match {
-        case Some(value) => Some(Cashback(credit = value.credit, debit = value.debit, balance = value.balance, date = value.dateTime))
+        case Some(value) => Some(
+          Cashback(code = value.code, credit = value.credit, debit = value.debit, date = value.getDate(), balance = value.balance)
+        )
         case None => None
       }
     } catch {

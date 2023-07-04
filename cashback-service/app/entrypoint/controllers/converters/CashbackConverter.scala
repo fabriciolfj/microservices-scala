@@ -5,6 +5,7 @@ import entrypoint.controllers.dto.request.CreateCashbackRequest
 import play.api.libs.json.{JsError, JsSuccess, JsValue}
 
 import java.time.LocalDateTime
+import java.util.UUID
 
 object CashbackConverter {
 
@@ -17,7 +18,7 @@ object CashbackConverter {
   }
 
   private def transform(request: CreateCashbackRequest) : Customer = {
-    val cashback = Cashback(request.value, BigDecimal(0), LocalDateTime.now(), request.value)
+    val cashback = Cashback(UUID.randomUUID().toString, request.value, BigDecimal(0), LocalDateTime.now(), request.value)
     Customer(request.customer, List(cashback))
   }
 }
