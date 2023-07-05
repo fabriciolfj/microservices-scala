@@ -5,14 +5,15 @@ import adapters.providers.database.data.CashbackData
 import com.google.inject.Inject
 import config.MongoConnection
 import entities.Cashback
+import org.mongodb.scala.bson.ObjectId
 import org.mongodb.scala.model.Filters.equal
 import org.mongodb.scala.model.Sorts.descending
+import org.mongodb.scala.model.Updates
 import org.slf4j.LoggerFactory
 import play.api.libs.json.{JsError, JsSuccess, Json}
 
 import javax.inject.Singleton
-import scala.concurrent.Future
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{Await, ExecutionContext, Future}
 
 @Singleton
 class CashbackRepository @Inject()(connection: MongoConnection) {
@@ -20,10 +21,10 @@ class CashbackRepository @Inject()(connection: MongoConnection) {
   val logger = LoggerFactory.getLogger(getClass)
   val COLLECTION = "cashback"
 
-  def save(entity: Cashback, customer: String)(implicit ec: ExecutionContext) : Unit = {
+  def save(entity: Cashback, customer: String)(implicit ec: ExecutionContext): Unit = {
     val collection = connection.getConnection(COLLECTION)
-
     val doc = CashbackDocumentMapper.toDocumentCashback(entity, customer)
+
     collection.insertOne(doc)
       .toFuture()
       .map { _ =>

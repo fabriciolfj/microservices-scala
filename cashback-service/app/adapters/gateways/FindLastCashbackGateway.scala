@@ -18,7 +18,11 @@ class FindLastCashbackGateway @Inject()(repository: CashbackRepository) extends 
     val result = try {
       Await.result(query, Duration.Inf) match {
         case Some(value) => Some(
-          Cashback(code = value.code, credit = value.credit, debit = value.debit, date = value.getDate(), balance = value.balance)
+          Cashback(code = value.code,
+            credit = BigDecimal(value.credit),
+            debit = BigDecimal(value.debit),
+            date = value.getDate(),
+            balance = BigDecimal(value.balance))
         )
         case None => None
       }
